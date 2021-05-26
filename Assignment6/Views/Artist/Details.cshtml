@@ -1,0 +1,113 @@
+﻿@model Assignment3_WEB524.Models.ArtistWithDetailViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Artist Details - @Model.Name</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthName)
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthOrStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthOrStartDate)
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UrlArtist)
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.UrlArtist)" height="100" width="100" />
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Biography)
+        </dt>
+
+        <dd>
+            <div class="panel panel-default panel-body">
+                @Html.Raw(Model.Biography)
+            </div>
+        </dd>
+
+        <dt>
+            Photos
+        </dt>
+        <dd>
+            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("image/")))
+            {
+                <div>
+                    <b><span>@item.Caption</span></b><br />
+                    <img src="/Media/@item.Content" alt="@item.Caption" height="100" width="100"/>
+                </div>
+            }
+            <hr />
+
+        <dt>
+            Audio
+        </dt>
+        <dd>
+            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("audio/")))
+            {
+                <div>
+                    <b><span>@item.Caption</span></b><br />
+                    <audio src="/Media/@item.Id" controls="controls" />
+                </div>
+            }
+            <hr />
+
+        </dd>
+        <dt>Documents</dt>
+        <dd>
+            @foreach (var item in Model.ArtistMediaItems.Where(m => m.ContentType.Contains("application/")))
+            {
+
+                <div>
+                    <a href="/Media/@item.Id" download="~/media/@item.Id"> @item.Caption</a><br />
+                </div>
+            }
+            <hr />
+
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Add new album for this artist", "AddAlbum", new { id = Model.Id }) |
+    @Html.ActionLink("Add new media for this artist", "AddArtistMediaItem", new { id = Model.Id })
+</p>
